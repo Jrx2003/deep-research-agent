@@ -1,8 +1,8 @@
 """Researcher Agent - executes searches and gathers information."""
 
-from ..core.state import ResearchState, Finding, Source
-from ..core.router import router, ModelTier
-from ..tools.search import search_multiple
+from src.core.state import ResearchState, Finding, Source
+from src.core.router import router, ModelTier
+from src.tools.search import search_multiple
 
 
 RESEARCHER_PROMPT = """You are a research assistant. Summarize the search results for the query.

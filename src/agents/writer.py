@@ -2,8 +2,8 @@
 
 from datetime import datetime
 
-from ..core.state import ResearchState
-from ..core.router import router, ModelTier
+from src.core.state import ResearchState
+from src.core.router import router, ModelTier
 
 
 WRITER_PROMPT = """You are a professional research writer. Create a polished final report from the research sections.

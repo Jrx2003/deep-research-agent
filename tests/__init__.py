@@ -1,1 +1,1 @@
-"""Tests for Deep Research Agent.""
+"""Tests for Deep Research Agent."""

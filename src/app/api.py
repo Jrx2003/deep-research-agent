@@ -7,16 +7,16 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel, Field
 
-from core.state import ResearchState
-from core.graph import create_research_graph
-from agents import (
+from src.core.state import ResearchState
+from src.core.graph import create_research_graph
+from src.agents import (
     planner_node,
     researcher_node,
     synthesis_node,
     critic_node,
     writer_node,
 )
-from tools.storage import save_report, save_state
+from src.tools.storage import save_report, save_state
 
 
 # In-memory storage for research sessions (replace with Redis in production)

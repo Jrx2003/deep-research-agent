@@ -17,7 +17,7 @@ try:
 except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
 
-from ..core.config import settings
+from src.core.config import settings
 
 
 @dataclass

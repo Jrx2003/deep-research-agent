@@ -5,16 +5,16 @@ from datetime import datetime
 
 import streamlit as st
 
-from core.state import ResearchState
-from core.graph import create_research_graph, visualize_graph
-from agents import (
+from src.core.state import ResearchState
+from src.core.graph import create_research_graph, visualize_graph
+from src.agents import (
     planner_node,
     researcher_node,
     synthesis_node,
     critic_node,
     writer_node,
 )
-from tools.storage import save_report
+from src.tools.storage import save_report
 
 
 st.set_page_config(

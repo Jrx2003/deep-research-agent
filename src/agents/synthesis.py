@@ -1,7 +1,7 @@
 """Synthesis Agent - combines findings into coherent sections."""
 
-from ..core.state import ResearchState, Section
-from ..core.router import router, ModelTier
+from src.core.state import ResearchState, Section
+from src.core.router import router, ModelTier
 
 
 SYNTHESIS_PROMPT = """You are a research synthesis expert. Create a coherent section from the research findings.
