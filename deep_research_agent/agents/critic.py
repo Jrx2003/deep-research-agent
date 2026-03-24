@@ -12,6 +12,8 @@ Original Query: {query}
 
 Expected Sections: {expected_sections}
 
+Missing Sections: {missing_sections}
+
 Generated Sections:
 {sections}
 
@@ -23,27 +25,52 @@ Review Criteria:
 5. Balance: Are different perspectives presented fairly?
 
 Respond in JSON format:
-{
+{{
     "passed": true/false,
     "score": 0.0-1.0,
     "feedback": [
-        {
+        {{
             "dimension": "completeness/accuracy/relevance/sources/balance",
             "issue": "Description of the issue",
             "severity": "low/medium/high",
             "suggestion": "How to fix it"
-        }
+        }}
     ],
-    "revised_plan": {
+    "revised_plan": {{
         "additional_queries": ["query 1", "query 2"]
-    }
-}
+    }}
+}}
 
 Guidelines:
 - Score >= 0.8: Pass
 - Score < 0.8 or any high severity issue: Fail
+- Missing sections should result in score <= 0.6
 - Be thorough but fair in your critique
+- Provide at least 2-3 specific feedback items
 """
+
+
+def check_missing_sections(expected: list, actual: list) -> list:
+    """Check which expected sections are missing.
+
+    Args:
+        expected: List of expected section titles
+        actual: List of actual section titles
+
+    Returns:
+        List of missing section titles
+    """
+    expected_lower = [e.lower().strip() for e in expected]
+    actual_lower = [a.lower().strip() for a in actual]
+
+    missing = []
+    for i, exp in enumerate(expected_lower):
+        # Check if any actual section matches (contains or equals)
+        found = any(exp in act or act in exp for act in actual_lower)
+        if not found:
+            missing.append(expected[i])
+
+    return missing
 
 
 def critic_node(state: ResearchState) -> ResearchState:
@@ -71,6 +98,11 @@ def critic_node(state: ResearchState) -> ResearchState:
         )
         return state
 
+    # Check for missing sections before LLM review
+    expected_sections = state.plan.expected_sections if state.plan else []
+    actual_sections = [s.title for s in state.sections]
+    missing_sections = check_missing_sections(expected_sections, actual_sections)
+
     # Get model for strong tier (review requires strong reasoning)
     model, config = router.get_model(ModelTier.STRONG)
 
@@ -80,12 +112,11 @@ def critic_node(state: ResearchState) -> ResearchState:
         for s in state.sections
     ])
 
-    expected_sections = state.plan.expected_sections if state.plan else []
-
     try:
         prompt = CRITIC_PROMPT.format(
             query=state.query,
-            expected_sections=", ".join(expected_sections),
+            expected_sections=", ".join(expected_sections) if expected_sections else "None specified",
+            missing_sections=", ".join(missing_sections) if missing_sections else "None",
             sections=sections_text,
         )
 

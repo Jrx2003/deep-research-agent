@@ -10,14 +10,19 @@ PLANNER_PROMPT = """You are a research planning expert. Your task is to break do
 
 Given the research query, create:
 1. A strategy for approaching the research
-2. A list of specific sub-queries to investigate
-3. Expected sections for the final report
+2. A list of specific sub-queries to investigate (MAXIMUM 4 sub-queries)
+3. Expected sections for the final report (MAXIMUM 4 sections)
+
+IMPORTANT:
+- Generate AT MOST 4 sub-queries to keep research focused
+- Generate AT MOST 4 expected sections
+- Section names should be descriptive without numeric prefixes (e.g., "Overview" not "1. Overview")
 
 Respond in JSON format:
 {{
     "strategy": "Brief description of research approach",
-    "sub_queries": ["query 1", "query 2", ...],
-    "expected_sections": ["section 1", "section 2", ...],
+    "sub_queries": ["query 1", "query 2", "query 3", "query 4"],
+    "expected_sections": ["Overview", "Key Findings", "Analysis", "Conclusion"],
     "reasoning": "Brief explanation of your planning decisions"
 }}
 

@@ -1,24 +1,42 @@
 """Synthesis Agent - combines findings into coherent sections."""
 
+import re
 from deep_research_agent.core.state import ResearchState, Section
 from deep_research_agent.core.router import router, ModelTier
 
 
 SYNTHESIS_PROMPT = """You are a research synthesis expert. Create a coherent section from the research findings.
 
-Section Title: {section_title}
+Section Topic: {section_title}
 
 Research Findings:
 {findings}
 
 Instructions:
-1. Synthesize the information into a well-structured section
-2. Maintain factual accuracy and cite sources where appropriate
-3. Write in a clear, professional tone
-4. Include relevant details but avoid redundancy
-5. If information is conflicting, acknowledge different perspectives
+1. Write a comprehensive section about "{section_title}" based on the findings
+2. Do NOT include "Section Title:" or any prefix in your response - start directly with the content
+3. Maintain factual accuracy and cite sources naturally in the text (e.g., "According to [source]...")
+4. Write in a clear, professional tone
+5. Avoid repeating information that has been covered in other sections
+6. Focus on insights and analysis, not just summarizing the raw findings
+7. If information is conflicting, acknowledge different perspectives
 
-Write the section content:"""
+Write the section content (no title, no prefix, start directly with the text):"""
+
+
+def clean_section_title(title: str) -> str:
+    """Clean section title by removing numeric prefixes.
+
+    Args:
+        title: Raw section title
+
+    Returns:
+        Cleaned title
+    """
+    # Remove patterns like "1. ", "1.1 ", "Section 1: ", etc.
+    cleaned = re.sub(r'^\d+[.\d]*\s*[.:\-]?\s*', '', title)
+    cleaned = re.sub(r'^section\s*\d*[:\-]?\s*', '', cleaned, flags=re.IGNORECASE)
+    return cleaned.strip()
 
 
 def synthesis_node(state: ResearchState) -> ResearchState:
@@ -36,7 +54,7 @@ def synthesis_node(state: ResearchState) -> ResearchState:
         state.add_log("ERROR", "No findings to synthesize", agent="synthesis")
         return state
 
-    # Get model for medium tier (synthesis requires understanding and integration)
+    # Get model for medium tier
     model, config = router.get_model(ModelTier.MEDIUM)
 
     # Prepare findings text
@@ -46,33 +64,66 @@ def synthesis_node(state: ResearchState) -> ResearchState:
         for f in state.findings
     ])
 
-    # Generate sections based on expected sections in plan
+    # Get expected sections from plan, with limits
+    max_sections = 5
+    if state.plan and state.plan.expected_sections:
+        expected_sections = state.plan.expected_sections[:max_sections]
+    else:
+        expected_sections = ["Overview", "Key Findings", "Conclusion"]
+
     sections = []
     total_cost = 0.0
-
-    expected_sections = state.plan.expected_sections if state.plan else ["Overview", "Details", "Conclusion"]
+    generated_contents = []  # Track to avoid duplication
 
     for i, section_title in enumerate(expected_sections):
         try:
+            # Clean the title
+            clean_title = clean_section_title(section_title)
+
             prompt = SYNTHESIS_PROMPT.format(
-                section_title=section_title,
+                section_title=clean_title,
                 findings=findings_text,
             )
 
             response = model.invoke(prompt)
             content = response.content if hasattr(response, 'content') else str(response)
 
-            # Collect source URLs for this section
+            # Clean up common LLM artifacts
+            content = content.strip()
+            # Remove "Section Title:" or similar prefixes if LLM added them
+            content = re.sub(r'^(Section\s*Title[:\-]?\s*[^\n]*\n*)', '', content, flags=re.IGNORECASE)
+            content = re.sub(r'^({section_title}[:\-]?\s*\n*)'.format(section_title=re.escape(clean_title)), '', content, flags=re.IGNORECASE)
+
+            # Check for similarity with previous sections
+            is_duplicate = False
+            for prev_content in generated_contents:
+                # Simple similarity check - if first 100 chars are very similar
+                if len(content) > 100 and len(prev_content) > 100:
+                    if content[:100].lower() == prev_content[:100].lower():
+                        is_duplicate = True
+                        state.add_log(
+                            "WARNING",
+                            f"Section '{clean_title}' appears to duplicate previous content",
+                            agent="synthesis",
+                        )
+                        break
+
+            if is_duplicate:
+                continue
+
+            generated_contents.append(content)
+
+            # Collect unique sources
             source_urls = []
             for finding in state.findings:
                 for source in finding.sources:
-                    if source.url not in source_urls:
+                    if source.url and source.url not in source_urls:
                         source_urls.append(source.url)
 
             section = Section(
-                title=section_title,
+                title=clean_title,
                 content=content,
-                sources=source_urls[:5],  # Top 5 sources
+                sources=source_urls[:5],
                 order=i,
             )
             sections.append(section)
@@ -85,7 +136,7 @@ def synthesis_node(state: ResearchState) -> ResearchState:
 
             state.add_log(
                 "INFO",
-                f"Synthesized section {i+1}/{len(expected_sections)}: {section_title}",
+                f"Synthesized section {i+1}/{len(expected_sections)}: {clean_title}",
                 agent="synthesis",
             )
 
