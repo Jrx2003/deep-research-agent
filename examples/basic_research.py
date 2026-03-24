@@ -5,12 +5,12 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+# Add package to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from core.state import ResearchState
-from core.graph import create_research_graph
-from agents import (
+from deep_research_agent.core.state import ResearchState
+from deep_research_agent.core.graph import create_research_graph
+from deep_research_agent.agents import (
     planner_node,
     researcher_node,
     synthesis_node,

@@ -5,7 +5,7 @@ from typing import Literal
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.memory import MemorySaver
 
-from src.core.state import ResearchState, ReviewStatus
+from deep_research_agent.core.state import ResearchState, ReviewStatus
 
 
 def create_research_graph(

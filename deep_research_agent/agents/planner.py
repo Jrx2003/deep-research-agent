@@ -2,8 +2,8 @@
 
 import json
 
-from src.core.state import ResearchState, ResearchPlan
-from src.core.router import router, ModelTier
+from deep_research_agent.core.state import ResearchState, ResearchPlan
+from deep_research_agent.core.router import router, ModelTier
 
 
 PLANNER_PROMPT = """You are a research planning expert. Your task is to break down a research query into a structured plan.

@@ -6,8 +6,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-from src.core.state import ResearchState
-from src.core.config import settings
+from deep_research_agent.core.state import ResearchState
+from deep_research_agent.core.config import settings
 
 
 def ensure_output_dir() -> Path:

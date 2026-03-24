@@ -2,8 +2,8 @@
 
 import json
 
-from src.core.state import ResearchState, ReviewResult, ReviewFeedback, ReviewStatus
-from src.core.router import router, ModelTier
+from deep_research_agent.core.state import ResearchState, ReviewResult, ReviewFeedback, ReviewStatus
+from deep_research_agent.core.router import router, ModelTier
 
 
 CRITIC_PROMPT = """You are a critical research reviewer. Evaluate the quality of the research sections.

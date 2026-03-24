@@ -9,16 +9,16 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.core.state import ResearchState
-from src.core.graph import create_research_graph
-from src.agents import (
+from deep_research_agent.core.state import ResearchState
+from deep_research_agent.core.graph import create_research_graph
+from deep_research_agent.agents import (
     planner_node,
     researcher_node,
     synthesis_node,
     critic_node,
     writer_node,
 )
-from src.tools.storage import save_report, save_state
+from deep_research_agent.tools.storage import save_report, save_state
 
 
 async def run_research(query: str, context: str = None, max_iterations: int = 3) -> ResearchState:

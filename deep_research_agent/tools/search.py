@@ -6,7 +6,7 @@ import time
 
 from duckduckgo_search import DDGS
 
-from src.core.config import settings
+from deep_research_agent.core.config import settings
 
 
 @dataclass

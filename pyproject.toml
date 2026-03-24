@@ -83,4 +83,4 @@ warn_unused_configs = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
-addopts = "--cov=src --cov-report=term-missing"
+addopts = "--cov=deep_research_agent --cov-report=term-missing"

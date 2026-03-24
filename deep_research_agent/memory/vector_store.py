@@ -17,7 +17,7 @@ try:
 except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
 
-from src.core.config import settings
+from deep_research_agent.core.config import settings
 
 
 @dataclass

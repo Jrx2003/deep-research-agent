@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.core.router import ModelRouter, ModelTier, ModelConfig, MODELS
+from deep_research_agent.core.router import ModelRouter, ModelTier, ModelConfig, MODELS
 
 
 def test_model_config():

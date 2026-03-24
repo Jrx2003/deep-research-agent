@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.core.state import (
+from deep_research_agent.core.state import (
     ResearchState,
     ResearchPlan,
     Finding,
