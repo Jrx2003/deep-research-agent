@@ -12,7 +12,13 @@ Query: {query}
 Search Results:
 {results}
 
-Provide a concise summary of the key findings. Focus on factual information and important details.
+IMPORTANT INSTRUCTIONS:
+1. Summarize ONLY the information present in the search results above
+2. Do NOT invent or make up any information not in the results
+3. Do NOT cite fake references (like "Smith, 2023") - only use sources provided above
+4. If the search results don't contain relevant information, state that clearly
+5. Focus on factual information and important details from the provided sources
+
 Summary:"""
 
 
@@ -46,6 +52,16 @@ def researcher_node(state: ResearchState) -> ResearchState:
                 state.add_log(
                     "WARNING",
                     f"No search results for query: {query}",
+                    agent="researcher",
+                )
+                continue
+
+            # Check average relevance of results
+            avg_relevance = sum(r.get('relevance_score', 0) for r in search_results) / len(search_results)
+            if avg_relevance < 0.4:
+                state.add_log(
+                    "WARNING",
+                    f"Low relevance results for query '{query}' (avg: {avg_relevance:.2f}). Skipping.",
                     agent="researcher",
                 )
                 continue

@@ -16,14 +16,14 @@ Section Topic: {section_title}
 Research Findings:
 {findings}
 
-Instructions:
-1. Write a comprehensive section about "{section_title}" based on the findings
-2. Do NOT include "Section Title:" or any prefix in your response - start directly with the content
-3. Maintain factual accuracy and cite sources naturally in the text (e.g., "According to [source]...")
-4. Write in a clear, professional tone
-5. Avoid repeating information that has been covered in other sections
-6. Focus on insights and analysis, not just summarizing the raw findings
-7. If information is conflicting, acknowledge different perspectives
+CRITICAL INSTRUCTIONS:
+1. Write a comprehensive section about "{section_title}" based ONLY on the findings above
+2. Do NOT include "Section Title:" or any prefix - start directly with the content
+3. Do NOT invent, fabricate, or hallucinate any information
+4. Do NOT cite fake academic references (e.g., "Smith, 2023") - only cite actual sources from the findings
+5. If the findings don't contain enough information, state this limitation clearly
+6. Write in a clear, professional tone
+7. Avoid repeating information from other sections
 
 Write the section content (no title, no prefix, start directly with the text):"""
 
