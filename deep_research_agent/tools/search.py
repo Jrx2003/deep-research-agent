@@ -21,6 +21,41 @@ class SearchResult:
     relevance_score: float = 0.0  # Added for relevance checking
 
 
+def extract_keywords(query: str) -> list:
+    """Extract keywords from query, handling both English and Chinese.
+
+    Args:
+        query: Search query
+
+    Returns:
+        List of keywords
+    """
+    import re
+
+    query_lower = query.lower()
+    keywords = []
+
+    # Extract English words (3+ chars)
+    english_words = re.findall(r'[a-z]+', query_lower)
+    keywords.extend([w for w in english_words if len(w) >= 2])
+
+    # Extract Chinese characters/words (each Chinese char is meaningful)
+    chinese_chars = re.findall(r'[\u4e00-\u9fff]+', query_lower)
+    for chars in chinese_chars:
+        # For Chinese, treat each character as keyword if query is short
+        if len(query_lower) <= 10:
+            keywords.extend(list(chars))
+        else:
+            # For longer queries, use the full Chinese segments
+            keywords.append(chars)
+
+    # If no keywords found, fall back to simple split
+    if not keywords:
+        keywords = [k for k in query_lower.split() if len(k) > 1]
+
+    return keywords
+
+
 def calculate_relevance(query: str, title: str, content: str) -> float:
     """Calculate relevance score between query and result.
 
@@ -36,8 +71,8 @@ def calculate_relevance(query: str, title: str, content: str) -> float:
     title_lower = title.lower()
     content_lower = content.lower()
 
-    # Extract keywords from query (simple approach)
-    keywords = [k for k in query_lower.split() if len(k) > 2]
+    # Extract keywords using improved method
+    keywords = extract_keywords(query)
 
     if not keywords:
         return 0.5
