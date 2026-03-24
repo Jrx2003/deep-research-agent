@@ -14,12 +14,12 @@ Given the research query, create:
 3. Expected sections for the final report
 
 Respond in JSON format:
-{
+{{
     "strategy": "Brief description of research approach",
     "sub_queries": ["query 1", "query 2", ...],
     "expected_sections": ["section 1", "section 2", ...],
     "reasoning": "Brief explanation of your planning decisions"
-}
+}}
 
 Research Query: {query}
 

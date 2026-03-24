@@ -40,7 +40,7 @@ def researcher_node(state: ResearchState) -> ResearchState:
     for i, query in enumerate(state.plan.sub_queries):
         try:
             # Execute search
-            search_results = search_multiple(query, num_results=5)
+            search_results = search_multiple([query], num_results=5)
 
             if not search_results:
                 state.add_log(

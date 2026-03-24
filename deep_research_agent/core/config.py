@@ -34,6 +34,7 @@ class Settings:
 
     # API Keys
     openai_api_key: Optional[str] = None
+    openai_base_url: Optional[str] = None
     anthropic_api_key: Optional[str] = None
     serpapi_api_key: Optional[str] = None
     langchain_api_key: Optional[str] = None
@@ -70,6 +71,7 @@ class Settings:
     def __post_init__(self):
         """Load from environment variables."""
         self.openai_api_key = os.getenv("OPENAI_API_KEY", self.openai_api_key)
+        self.openai_base_url = os.getenv("OPENAI_BASE_URL", self.openai_base_url)
         self.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY", self.anthropic_api_key)
         self.serpapi_api_key = os.getenv("SERPAPI_API_KEY", self.serpapi_api_key)
         self.langchain_api_key = os.getenv("LANGCHAIN_API_KEY", self.langchain_api_key)

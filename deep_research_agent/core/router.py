@@ -66,6 +66,28 @@ MODELS: dict[str, ModelConfig] = {
         max_tokens=128000,
         supports_streaming=False,
     ),
+    # Kimi (Moonshot) models - OpenAI compatible
+    "moonshot-v1-8k": ModelConfig(
+        name="moonshot-v1-8k",
+        provider="openai",
+        input_cost_per_1k=0.012,
+        output_cost_per_1k=0.012,
+        max_tokens=8000,
+    ),
+    "moonshot-v1-32k": ModelConfig(
+        name="moonshot-v1-32k",
+        provider="openai",
+        input_cost_per_1k=0.024,
+        output_cost_per_1k=0.024,
+        max_tokens=32000,
+    ),
+    "moonshot-v1-128k": ModelConfig(
+        name="moonshot-v1-128k",
+        provider="openai",
+        input_cost_per_1k=0.060,
+        output_cost_per_1k=0.060,
+        max_tokens=128000,
+    ),
     # Anthropic models
     "claude-3-haiku-20240307": ModelConfig(
         name="claude-3-haiku-20240307",
@@ -117,11 +139,14 @@ class ModelRouter:
             if config.provider == "openai":
                 if not settings.openai_api_key:
                     raise ValueError("OPENAI_API_KEY not set")
-                self._models[model_name] = ChatOpenAI(
-                    model=model_name,
-                    api_key=settings.openai_api_key,
-                    max_tokens=4096,
-                )
+                kwargs = {
+                    "model": model_name,
+                    "api_key": settings.openai_api_key,
+                    "max_tokens": 4096,
+                }
+                if settings.openai_base_url:
+                    kwargs["base_url"] = settings.openai_base_url
+                self._models[model_name] = ChatOpenAI(**kwargs)
             elif config.provider == "anthropic":
                 if not settings.anthropic_api_key:
                     raise ValueError("ANTHROPIC_API_KEY not set")
