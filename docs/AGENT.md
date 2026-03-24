@@ -19,7 +19,7 @@ Deep Research Agent is a **multi-agent research system** that automates deep res
 ```bash
 cd ~/code/deep-research-agent
 pip install -e ".[dev]"
-python -m src.app.cli --help
+deep-research --help
 ```
 
 ### Key commands
@@ -51,9 +51,9 @@ Tasks being worked on:
 
 ### Next immediate tasks
 
-1. Create core state management (`src/core/state.py`)
-2. Set up LangGraph base architecture (`src/core/graph.py`)
-3. Implement model router (`src/core/router.py`)
+1. Create core state management (`deep_research_agent/core/state.py`)
+2. Set up LangGraph base architecture (`deep_research_agent/core/graph.py`)
+3. Implement model router (`deep_research_agent/core/router.py`)
 
 ---
 
@@ -168,19 +168,19 @@ graph.add_edge("writer", END)
 
 | Component | Path |
 |-----------|------|
-| State definition | `src/core/state.py` |
-| Graph builder | `src/core/graph.py` |
-| Model router | `src/core/router.py` |
-| Planner agent | `src/agents/planner.py` |
-| Researcher agent | `src/agents/researcher.py` |
-| Synthesis agent | `src/agents/synthesis.py` |
-| Critic agent | `src/agents/critic.py` |
-| Writer agent | `src/agents/writer.py` |
-| Search tools | `src/tools/search.py` |
-| Vector store | `src/memory/vector_store.py` |
-| CLI entry | `src/app/cli.py` |
-| API entry | `src/app/api.py` |
-| UI entry | `src/app/ui.py` |
+| State definition | `deep_research_agent/core/state.py` |
+| Graph builder | `deep_research_agent/core/graph.py` |
+| Model router | `deep_research_agent/core/router.py` |
+| Planner agent | `deep_research_agent/agents/planner.py` |
+| Researcher agent | `deep_research_agent/agents/researcher.py` |
+| Synthesis agent | `deep_research_agent/agents/synthesis.py` |
+| Critic agent | `deep_research_agent/agents/critic.py` |
+| Writer agent | `deep_research_agent/agents/writer.py` |
+| Search tools | `deep_research_agent/tools/search.py` |
+| Vector store | `deep_research_agent/memory/vector_store.py` |
+| CLI entry | `deep_research_agent/app/cli.py` |
+| API entry | `deep_research_agent/app/api.py` |
+| UI entry | `deep_research_agent/app/ui.py` |
 
 ### Environment Variables
 

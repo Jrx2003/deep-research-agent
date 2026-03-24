@@ -61,10 +61,10 @@ cp .env.example .env
 deep-research "Your research topic"
 
 # Web UI
-streamlit run src/app/ui.py
+streamlit run deep_research_agent/app/ui.py
 
 # API server
-uvicorn src.app.api:app --reload
+uvicorn deep_research_agent.app.api:app --reload
 ```
 
 ## 📚 Documentation
@@ -86,15 +86,15 @@ uvicorn src.app.api:app --reload
 
 ```
 deep-research-agent/
-├── docs/               # Documentation
-├── src/
-│   ├── agents/        # Agent implementations
-│   ├── core/          # Core framework
-│   ├── tools/         # Tool integrations
-│   ├── memory/        # Vector storage
-│   └── app/           # Application entry points
-├── tests/             # Test suite
-└── examples/          # Usage examples
+├── docs/                      # Documentation
+├── deep_research_agent/       # Main package
+│   ├── agents/               # Agent implementations
+│   ├── core/                 # Core framework
+│   ├── tools/                # Tool integrations
+│   ├── memory/               # Vector storage
+│   └── app/                  # Application entry points
+├── tests/                     # Test suite
+└── examples/                  # Usage examples
 ```
 
 ## 🤝 Contributing

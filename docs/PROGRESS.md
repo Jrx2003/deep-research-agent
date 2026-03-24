@@ -12,10 +12,10 @@
 
 ## Phase 2: Core Framework ✅
 
-- [x] State definition (`src/core/state.py`)
-- [x] LangGraph base architecture (`src/core/graph.py`)
-- [x] Model router implementation (`src/core/router.py`)
-- [x] Configuration management (`src/core/config.py`)
+- [x] State definition (`deep_research_agent/core/state.py`)
+- [x] LangGraph base architecture (`deep_research_agent/core/graph.py`)
+- [x] Model router implementation (`deep_research_agent/core/router.py`)
+- [x] Configuration management (`deep_research_agent/core/config.py`)
 
 ## Phase 3: Agent Implementation ✅
 
@@ -27,16 +27,16 @@
 
 ## Phase 4: Tools & Memory ✅
 
-- [x] Search tools (`src/tools/search.py`)
-- [x] Web scraper (`src/tools/scraper.py`)
-- [x] Storage utilities (`src/tools/storage.py`)
-- [x] Vector store (`src/memory/vector_store.py`)
+- [x] Search tools (`deep_research_agent/tools/search.py`)
+- [x] Web scraper (`deep_research_agent/tools/scraper.py`)
+- [x] Storage utilities (`deep_research_agent/tools/storage.py`)
+- [x] Vector store (`deep_research_agent/memory/vector_store.py`)
 
 ## Phase 5: Application Layer ✅
 
-- [x] CLI implementation (`src/app/cli.py`)
-- [x] API server (`src/app/api.py`)
-- [x] Streamlit UI (`src/app/ui.py`)
+- [x] CLI implementation (`deep_research_agent/app/cli.py`)
+- [x] API server (`deep_research_agent/app/api.py`)
+- [x] Streamlit UI (`deep_research_agent/app/ui.py`)
 
 ## Phase 6: Testing & Examples ✅
 

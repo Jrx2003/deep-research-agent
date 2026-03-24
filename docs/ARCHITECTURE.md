@@ -105,7 +105,7 @@ Max iterations: 3 (configurable)
 
 ## Component Details
 
-### Core Framework (`src/core/`)
+### Core Framework (`deep_research_agent/core/`)
 
 #### State Management (`state.py`)
 - Defines `ResearchState` dataclass
@@ -122,7 +122,7 @@ Max iterations: 3 (configurable)
 - Manages API keys and rate limits
 - Tracks token usage
 
-### Agents (`src/agents/`)
+### Agents (`deep_research_agent/agents/`)
 
 Each agent follows the same pattern:
 
@@ -136,7 +136,7 @@ def agent_node(state: ResearchState) -> ResearchState:
     # 5. Return updated state
 ```
 
-### Tools (`src/tools/`)
+### Tools (`deep_research_agent/tools/`)
 
 #### Search (`search.py`)
 - DuckDuckGo search (free, no API key)
@@ -152,7 +152,7 @@ def agent_node(state: ResearchState) -> ResearchState:
 - Save/load research sessions
 - Export to various formats (Markdown, PDF, JSON)
 
-### Memory (`src/memory/`)
+### Memory (`deep_research_agent/memory/`)
 
 #### Vector Store (`vector_store.py`)
 - ChromaDB integration
